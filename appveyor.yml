@@ -1,0 +1,19 @@
+os: Visual Studio 2017
+
+environment:
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+
+install:
+  - ps: "choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y"
+  - cmd: SET PATH=%PATH%;C:\Program Files\CMake\bin
+
+build_script:
+  - cmd: mkdir build
+  - cmd: cd build
+  - cmd: cmake ..
+  - cmake --build .
+
+test_script:
+  - cmd: cd build
+  - cmd: ctest
