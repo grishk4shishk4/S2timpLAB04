@@ -14,9 +14,15 @@ before_install:
   - sudo apt-get install -y cmake
 
 script:
-  - mkdir build
-  - cd build
-  - cmake ..
-  - cmake --build .
-  - ctest
+  - cmake -H. -B_build _DCMAKE_INSTALL_PREFIX=install
+  - cmake --build _build
+  - cmake --build _build -target install
+
+addons:
+  apt:
+    sources:
+      - george-edison55-precise-backports
+    packages:
+      - cmake
+      - cmake-data
 
