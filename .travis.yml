@@ -1,28 +1,27 @@
+os: linux
 language: cpp
-compiler:
-  - gcc
-  - clang
+dist: bionic
 
-os:
-  -linux
-
-dist: trusty
-sudo: required''
-
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y cmake
-
-script:
-  - cmake -H. -B_build _DCMAKE_INSTALL_PREFIX=install
-  - cmake --build _build
-  - cmake --build _build -target install
+matrix:
+  include:
+    - compiler: gcc
+      env: CXX=g++
+    - compiler: clang
+      env: CXX=clang++
 
 addons:
   apt:
     sources:
-      - george-edison55-precise-backports
+      - ubuntu-toolchain-r-test
+      #в интернете нашел, что лучше использовать этот
     packages:
-      - cmake
-      - cmake-data
+      - g++-8
+      - clang
 
+script:
+  - cmake mkdir _build
+  - cd _build
+  - cmake -DCMAKE_CXX_COMPILER=$CXX ..
+  - cmake --build .
+  - cmake --build . --target install
+  # такой синтаксис должен проще читаться
