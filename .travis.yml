@@ -19,9 +19,23 @@ addons:
       - clang
 
 script:
+<<<<<<< HEAD
   - cmake mkdir _build
   - cd _build
   - cmake -DCMAKE_CXX_COMPILER=$CXX ..
   - cmake --build .
   - cmake --build . --target install
   # такой синтаксис должен проще читаться
+=======
+  - cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=_install
+  - cmake --build _build
+  - cmake --build _build --target install
+
+addons:
+  apt:
+    sources:
+      - george-edison55-precise-backports
+    packages:
+      - cmake
+      - cmake-data
+>>>>>>> 10ed2082515c37a74530dfff41f8e74e0ef7ebd8
